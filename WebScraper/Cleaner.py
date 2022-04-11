@@ -1,26 +1,48 @@
 import csv
 import os
+import re
 
 count = 1
 
-def clean_parenthesis(_text):
+def clean_left_parenthesis(_text):
     if "(" in _text:
         if ")" in _text:
-            _text = _text[0:_text.index("(")] + _text[_text.index(")")::]
-            
+            _text = _text[0:_text.index("(")] + _text[_text.index(")")+1::]
         else:
-            if(count == 14405): print(_text[_text.index(")")::])
             _text = _text[0:_text.index("(")]
+    return _text
+
+def clean_right_parenthesis(_text):
+    if ")" in _text:
+        if "(" in _text:
+            _text = _text[0:_text.index("(")] + _text[_text.index(")")+1::]
+        else:
+            _text = _text[0:_text.index(")")]
+    return _text
+
+def clean_colon_speaker(_text):
+    if ":" in _text:
+        _text = _text[0:_text.index(":")]
+    return _text
+
+def clean_colon_line(_text):
+    if ":" in _text:
+       _text = _text[_text.index(":")+1:len(_text)]
     return _text
 
 def clean_Row(_row):
     try:
 ##        if(count == 14405): print(_row)
-        _row[3] = clean_parenthesis(_row[3])
-        _row[4] = clean_parenthesis(_row[4])
-        
-        _row[4] = _row[4][_row[4].index(":")+1: len(_row[4])]
-        _row[4] = _row[4].strip()
+        _row[3] = re.sub("[\(\[].*?[\)\]]", "", _row[3])
+        _row[4] = re.sub("[\(\[].*?[\)\]]", "", _row[4])
+        _row[3] = clean_colon_speaker(_row[3])
+##        _row[3] = clean_left_parenthesis(_row[3])
+##        _row[4] = clean_colon_line(_row[4])
+##        _row[4] = clean_left_parenthesis(_row[4])
+##        _row[4] = clean_parenthesis(_row[4])
+##        
+##        _row[4] = _row[4][_row[4].index(":")+1: len(_row[4])]
+##        _row[4] = _row[4].strip()
         return _row
     except:
         print(count)
@@ -42,3 +64,4 @@ with open('transcript.csv', 'r', encoding='utf-8') as file:
             writer = csv.writer(f)
             writer.writerow(row)
 f.close()
+print("Done")
