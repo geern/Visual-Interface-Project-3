@@ -40,7 +40,8 @@ def clean_Row(_row):
 ##        if(count == 14405): print(_row)
         _row[3] = re.sub("[\(\[].*?[\)\]]", "", _row[3])
         _row[4] = re.sub("[\(\[].*?[\)\]]", "", _row[4])
-        _row[3] = clean_colon_speaker(_row[3])
+        if ":" in _row[3]:
+            _row[3] = clean_colon_speaker(_row[3])
         _row[4] = clean_colon_line(_row[4])
         while ":" in _row[4]:
             _row[4] = delete_colon(_row[4])
