@@ -20,7 +20,6 @@ def scrape_Transcript(_URL, _season, _episode, _episodeNum):
         if(speaker.text.find(':') != -1):
             words = speaker.parent.get_text()
             data = [season_Name, episode_Name, _episodeNum, speaker.text, words]
-            print(data)
             f = open(os.getcwd() + '/transcript.csv', 'a', newline='', encoding='utf-8')
             writer = csv.writer(f)
             writer.writerow(data)
@@ -33,20 +32,17 @@ soup = BeautifulSoup(page.content, "html.parser")
 
 results = soup.find(id="mw-content-text")
 
-##seasons = results.find_all(class_ = "mw-headline")
-##count = 0
-##for season in seasons:
-##    count += 1
-##    episodes = season.findNext('ol').find_all("a")
-##    count_E = 0
-##    for episode in episodes:
-##        count_E += 1
-##        #print(count_E)
-##        append = episode['href']
-##        transcript_URL = URL + append
-##        scrape_Transcript(transcript_URL, count, episode.text, count_E)
-
-scrape_Transcript("https://arthur.fandom.com/wiki/D.W.%27s_Library_Card_(episode)/Transcript", 4, "TEST", 1)
+seasons = results.find_all(class_ = "mw-headline")
+count = 0
+for season in seasons:
+    count += 1
+    episodes = season.findNext('ol').find_all("a")
+    count_E = 0
+    for episode in episodes:
+        count_E += 1
+        append = episode['href']
+        transcript_URL = URL + append
+        scrape_Transcript(transcript_URL, count, episode.text, count_E)
     
 print("Done")
         
