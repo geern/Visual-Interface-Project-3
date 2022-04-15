@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interactive map with Leaflet</title>
+    <title>Project 3: TV</title>
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link rel="stylesheet" href="css/leaflet.css">
     <link rel="stylesheet" href="css/style.css">
@@ -20,37 +20,17 @@
         </a>
     </div>
     <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px; background: black;">
-        <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray;">
+        <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray; overflow-y: scroll;">
             <h3>Select Characters</h3>
-            <div id="CheckBoxContainer" style="float: Left;">
-                <!-- <label>
-                  <input type="checkbox" value="option2">
-                  CheckBox 2 
-                </label> -->
-            </div>
             <input style="float: right" type="button" onclick="checkAll()" value="Select All">
+            <input style="float: right" type="button" onclick="unCheckAll()" value="Deselect All">
+            <label>Filterby:</label>
+            <select id="FilterCharactersSelect">
+            </select>
+            <div id="CheckBoxContainer" style="float: Left;">
+            </div>
         </div>
         <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; background: yellow; overflow-y: scroll;">
-            <!-- <div style="float: left; width: 50%; height: 50%; background: #B2BEB5">
-                <div style="float: left; width: 25%; height: 50%">
-                    <img style="width: 100%; height: 100%" src="images/index.jpg">
-                </div>
-                <div style="float: left; width: 75%; height: 16.66%; background: #818589">
-                   Name:
-                    <h3 class="center">Arthur</h3>
-                </div>
-                <div style="float: left; width: 75%; height: 16.66%; background: #7393B3">
-                    How many Episodes appeared in:
-                    <h3 class="center">50</h3>
-                </div>
-                <div style="float: left; width: 75%; height: 16.66%; background: #A9A9A9">
-                    How many Lines spoke
-                    <h3 class="center">50</h3>
-                </div>
-                <div style="float: left; width: 100%; height: 50%; background: #818589">
-                    Episodes + Seasons + how much they spoke in the episode
-                </div>
-            </div> -->
         </div>
         <div id="BarChartEpisodes" style="float: left; width: 100%; height: 25%; background: #7393B3">
         </div>
@@ -70,7 +50,7 @@
         </div>
         
     </div>
-    <div id="tooltip"></div>
+    <div id="ToolTip"></div>
 
     <script src="js/d3.v6.min.js"></script>
     <script src="js/leaflet.js"></script>
@@ -79,7 +59,7 @@
     <script src="js/leaflet-providers.js"></script>
     <script src="js/main.js"></script>
     <script src="js/leafletMap.js"></script>
-    <script src="js/fungiData.js"></script>
+    <script src="js/dataCollection.js"></script>
     <script src="js/barChart.js"></script>
     <script src="js/table.js"></script>
 

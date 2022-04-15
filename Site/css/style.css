@@ -3,7 +3,7 @@
   height: 500px;
 }
 
-#tooltip {
+#ToolTip {
   position: absolute;
   opacity: 0;
   background: #fff;
@@ -61,11 +61,6 @@ table, th, td{
 }
 .source a {
   color: black;
-}
-
-table {
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .center {
