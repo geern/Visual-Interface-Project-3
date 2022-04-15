@@ -115,15 +115,22 @@ class BarChart {
                   return stringReturn
                 }
                 //create a tool tip
-                d3.select('#tooltip')
+                d3.select('#ToolTip')
                     .style('opacity', 1)
                     .style('z-index', 1000000)
                     .html(html);
             })
             .on('mousemove', (event) => {
                 //position the tooltip
-                d3.select('#tooltip')
-                  .style('left', (event.pageX + 10) + 'px')   
+                var width = document.getElementById('ToolTip').offsetWidth
+                console.log(width)
+                d3.select('#ToolTip')
+                  .style('left', ()=>{
+                    if(event.pageX + width >= 1850){                        
+                        return (event.pageX - width) + 'px'
+                    }
+                    return (event.pageX + 10) + 'px'
+                })   
                   .style('top', (event.pageY + 10) + 'px');
             })              
             .on('mouseleave', function() { //function to add mouseover event
@@ -132,7 +139,7 @@ class BarChart {
                   .attr("fill", "white") //change the fill
                   .style('opacity', 0)
 
-                d3.select('#tooltip').style('opacity', 0);//turn off the tooltip
+                d3.select('#ToolTip').style('opacity', 0);//turn off the tooltip
             })
     }
 

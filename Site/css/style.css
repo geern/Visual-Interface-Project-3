@@ -3,7 +3,7 @@
   height: 500px;
 }
 
-#tooltip {
+#ToolTip {
   position: absolute;
   opacity: 0;
   background: #fff;

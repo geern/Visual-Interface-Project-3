@@ -13,7 +13,7 @@ Promise.all([
 
       data.characters.sort((a, b) => a.name > b.name ? 1 : -1)
       data.characters.forEach(character => {
-        if(character.total_episodes > 1 && character.total_lines > 5 && character.name.indexOf('+') < 0 && character.name.indexOf('and') < 0) createCheckBox(character)
+        if(character.total_episodes > 5 && character.total_lines > 5 && character.name.indexOf('+') < 0 && character.name.indexOf('and') < 0) createCheckBox(character)
       })
 
       checkBoxes = document.getElementsByName('checkbox')
