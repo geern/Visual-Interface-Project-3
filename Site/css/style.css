@@ -1,0 +1,76 @@
+#my-map {
+  width: 100%;
+  height: 500px;
+}
+
+#tooltip {
+  position: absolute;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0px rgb(92 92 92 / 0.5);
+  border: 1px solid #ddd;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+}
+.tooltip-label {
+  font-weight: 500;
+  font-size: 10px;
+  color: #888;
+}
+
+table, th, td{
+  border: 1px solid;
+}
+
+.slider {
+  -webkit-appearance: none;
+  float:  left;
+  width: 50%;
+  height: 15px;
+  border-radius: 5px;  
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #FF6D8D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #FF6D8D;
+  cursor: pointer;
+}
+
+.source {
+  margin-top: 20px;
+  font-size: 10px;
+  color: black;
+}
+.source a {
+  color: black;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
