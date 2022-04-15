@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Arthur",
+        "total_episodes": 5,
+        "total_lines": 5,
+        "season_and_episode": [
+            [1,1],
+            [1,2],
+            [1,3]
+        ]        
+    }
+]

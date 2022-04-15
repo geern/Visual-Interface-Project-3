@@ -1,8 +1,6 @@
 #Scraping specifically season 4 episode 1
-from typing import NewType
 import requests
 from bs4 import BeautifulSoup
-import re
 import csv
 import os
 
