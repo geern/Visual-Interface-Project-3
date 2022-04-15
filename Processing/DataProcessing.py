@@ -44,7 +44,9 @@ def CharacterStrip():
                     )
                 line_count += 1
     print(f'Processed {line_count} lines.')
-
+    print(len(dump))
+    dump = characterClean(dump)
+    print(len(dump))
     #write to json file
     with open("./characters.json", "w") as f:
         json.dump(dump, f)
@@ -128,9 +130,20 @@ def updateEpisode(characters, row):
     
     return characters
 
+def characterClean(dump):
+    #post processing clean
+    i = 0
+    while i < len(dump):
+        if(dump[i]["total_episodes"] < 20 or dump[i]["name"].__contains__("+")):
+            del dump[i]
+        else:
+            i += 1
+    
+    print(len(dump))
+    return dump
 
 def main():
-    EpisodesStrip()
+    CharacterStrip()
 
 
 if(__name__ == "__main__"):
