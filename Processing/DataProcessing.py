@@ -20,6 +20,9 @@ def CharacterStrip():
             if line_count == 0:
                 line_count += 1
             else:
+                #check if DW error
+                if(row[3] == "D.W"):
+                    row[3] = "D.W."
                 #check dump to make sure character is not used yet
                 check_flag = False
                 for i in range(len(dump)):
