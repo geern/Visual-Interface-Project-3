@@ -1,6 +1,7 @@
 var data
 var charCount = 0
 var charBackground = ['#808080', '#D3D3D3']
+var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'Alphabetical Ascending', 'Most Lines', 'Least Lines']
 
 Promise.all([
   d3.json('data/characters.json'),
@@ -21,6 +22,10 @@ Promise.all([
         checkbox.checked = true
       })
 
+      filterBy.forEach(item => {
+        loadDropDown('FilterCharactersSelect', [item])
+      })
+
       checkCheckBox()
 
       let seasons = data.getSeasons()
@@ -34,6 +39,8 @@ Promise.all([
       episodes.forEach(item => {
         loadDropDown('EpisodeSelect', [item])  
       })
+
+      
 })
 
 document.getElementById('SeasonSelect').onchange = () => {
@@ -45,6 +52,10 @@ document.getElementById('SeasonSelect').onchange = () => {
   episodes.forEach(item => {
     loadDropDown('EpisodeSelect', [item])  
   })
+}
+
+document.getElementById('FilterCharactersSelect').onchange = () => {
+  checkCheckBox()
 }
 
 function createCheckBox(_character){
@@ -142,7 +153,8 @@ function checkCheckBox(){
   });
 
   //sorts character sheets by most episodes and creates character sheets
-  characterSheets.sort((a, b) => a.total_episodes < b.total_episodes ? 1 : -1)
+  characterSheets = sortCharacterSheets(characterSheets, document.getElementById('FilterCharactersSelect').value)
+  console.log(document.getElementById('FilterCharactersSelect').value)
   characterSheets.forEach(character => {
     createCharacterSheet(character)
   })
@@ -219,4 +231,29 @@ function loadDropDown(_name, _values){
 
 function failedImage(_image){
   _image.src = "images/index.jpg"
+}
+
+function sortCharacterSheets(_characterSheets, _filter){
+  switch (_filter){
+    case 'Most Episodes':
+      return _characterSheets.sort((a, b) => a.total_episodes < b.total_episodes ? 1 : -1)
+      break
+    case 'Least Episodes':
+      return _characterSheets.sort((a, b) => a.total_episodes > b.total_episodes ? 1 : -1)
+      break
+    case 'Alphabetical Descending':
+      return _characterSheets.sort((a, b) => a.name > b.name ? 1 : -1)
+      break
+    case 'Alphabetical Ascending':
+      return _characterSheets.sort((a, b) => a.name < b.name ? 1 : -1)
+      break
+    case 'Most Lines':
+      return _characterSheets.sort((a, b) => a.total_lines < b.total_lines ? 1 : -1)
+      break
+    case 'Least Lines':
+      return _characterSheets.sort((a, b) => a.total_lines > b.total_lines ? 1 : -1)
+      break
+     
+  }
+  
 }

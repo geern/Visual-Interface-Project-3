@@ -22,10 +22,13 @@
     <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px; background: black;">
         <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray; overflow-y: scroll;">
             <h3>Select Characters</h3>
-            <div id="CheckBoxContainer" style="float: Left;">
-            </div>
             <input style="float: right" type="button" onclick="checkAll()" value="Select All">
             <input style="float: right" type="button" onclick="unCheckAll()" value="Deselect All">
+            <label>Filterby:</label>
+            <select id="FilterCharactersSelect">
+            </select>
+            <div id="CheckBoxContainer" style="float: Left;">
+            </div>
         </div>
         <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; background: yellow; overflow-y: scroll;">
         </div>
