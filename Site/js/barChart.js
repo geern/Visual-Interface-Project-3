@@ -41,7 +41,7 @@ class BarChart {
             .call(d3.axisBottom(vis.xScale))
             .selectAll("text")
             .attr("transform", "translate(-10,2)rotate(-65)")
-            .style("text-anchor", "end");
+            .style("display", "none");
 
         // Add Y axis
         vis.yScale = d3.scaleLinear()
@@ -52,76 +52,28 @@ class BarChart {
             .attr('class', 'yAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
             .call(vis.yAxis)
 
-        d3.select(vis.config.parentElement).append("text")
+        vis.svg.append("text")
             .attr("class", "y label")
             .attr("text-anchor", "middle")
-            .attr("x", (-1) * vis.config.containerHeight / 2)
-            .attr("y", 50)
+            .attr("x", (-1) * vis.config.containerHeight / 2 + 30)
+            .attr("y", -30)
             .attr("transform", "rotate(-90)")
             .text(vis.config.yLabel);
 
-        d3.select(vis.config.parentElement).append("text")
+        vis.svg.append("text")
             .attr("class", "x label")
             .attr("text-anchor", "middle")
             .attr("x", vis.config.containerWidth / 2)
-            .attr("y", vis.config.containerHeight - 20)
+            .attr("y", vis.config.containerHeight - 55)
             .text(vis.config.xLabel);
 
-        d3.select(vis.config.parentElement).append("text")
+        vis.svg.append("text")
             .attr("class", 'title' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
             .attr("text-anchor", "middle")
             .attr("x", vis.config.containerWidth / 2)
-            .attr("y", 25)
+            .attr("y", 0)
             .text(vis.config.title);
-
-            if(vis.config.parentElement == '#timeLine' || vis.config.parentElement == '#sampleByYear'){
-
-        vis.xScaleContext = d3.scaleBand()
-            .range([ 0, vis.width ])
-            .domain(vis.data.map(function(d) { return d[vis.config.xValue]; }))
-            .padding(0.2);
-
-        vis.yScaleContext = d3.scaleLinear()
-        .range([vis.config.containerHeight, 0])
-        .nice();
-
-        // Append focus group with x- and y-axes
-
-        vis.focus = vis.svg.append('g')
-            .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-
-        vis.focus.append('defs').append('clipPath')
-            .attr('id', 'clip')
-          .append('rect')
-            .attr('width', vis.config.containerWidth)
-            .attr('height', vis.config.containerHeight);
-        
-        vis.focusLinePath = vis.focus.append('path')
-            .attr('class', 'chart-line');
-
-        vis.xAxisFocusG = vis.focus.append('g')
-            .attr('class', 'axis x-axis')
-            .attr('transform', `translate(0,${vis.config.containerHeight})`);
-
-        vis.yAxisFocusG = vis.focus.append('g')
-            .attr('class', 'axis y-axis');
-
-        vis.brushG = vis.svg.append('g')
-            .attr('class', 'brush x-brush');
-
-        // Initialize brush component
-        vis.brush = d3.brushX()
-            .extent([[0, 0], [vis.width, vis.height]])
-            .on('brush', function({selection}) {
-              if (selection) vis.brushed(selection);
-            })
-            .on('end', function({selection}) {
-              if (!selection && vis.config.parentElement == '#sampleByYear') timeLine.brushed([0, timeLine.width])
-              else if (!selection) vis.brushed([0, vis.width]);
-            });
-
-        vis.brushG.call(vis.brush)}
-
+    
         // Bars
         vis.svg.selectAll(".bar")
             .data(vis.data)
@@ -156,8 +108,9 @@ class BarChart {
                   var stringReturn = ``
                   stringReturn += `<div class="tooltip-label" "></div>`
                   stringReturn += `<ul>`
-                  stringReturn += `<li>${vis.config.xValue}: ${d[vis.config.xValue]}</li>`
-                  stringReturn += `<li>Samples Collected: ${d[vis.config.yValue]}</li>`
+                  stringReturn += `<li>Season: ${d.season}</li>`
+                  stringReturn += `<li>Episode: ${d.episode}</li>`
+                  stringReturn += `<li>Lines Spoke: ${d[vis.config.yValue]}</li>`
                   stringReturn += `</ul>`
                   return stringReturn
                 }
@@ -180,94 +133,7 @@ class BarChart {
                   .style('opacity', 0)
 
                 d3.select('#tooltip').style('opacity', 0);//turn off the tooltip
-
             })
-            .on('click', function(event, d){
-                if(d.year){
-                    let e = document.getElementById("YearSlider")
-                    e.value = d.year
-                    e.onchange()
-                    e.oninput()
-                }
-            })
-
-        
-}
-
-    updateVis(_data, _title){
-        let vis = this;
-
-        vis.data = _data
-
-        vis.yScale.domain([0, d3.extent(vis.data, d => d[vis.config.yValue])[1]])
-        vis.xScale.domain(vis.data.map(function(d) { return d[vis.config.xValue]; }))
-        vis.svg.selectAll('.bar')
-            .data(vis.data)
-            .transition().duration(1000)
-            .attr("x", function(d) { return vis.xScale(d[vis.config.xValue]); })
-            .attr("y", function(d) { return vis.yScale(d[vis.config.yValue]); })
-            .attr("height", function(d) { return vis.height - vis.yScale(d[vis.config.yValue]);})
-
-        vis.svg.selectAll('.barHighlight')
-            .data(vis.data)
-            .transition().duration(10)
-        if(_title !== undefined){
-            d3.select('.title' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
-                .text(_title);
-        }
-
-        d3.select('.yAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
-            .transition()
-            .duration(1000)
-            .call(vis.yAxis)
-
-        d3.select('.xAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
-            .transition()
-            .duration(1000)
-            .call(vis.xAxis)
-
-    }
-
-    brushed(selection) {
-        let vis = this;
-        if(vis.config.parentElement == '#timeLine'){
-            let low = Math.floor(selection[0]/(vis.width/vis.data.length))
-            let high = Math.floor(selection[1]/(vis.width/vis.data.length))
-            let list = []
-
-            let extent = vis.data.map(function(d) { return d[vis.config.xValue]; })
-
-            vis.data.forEach(item => {
-                if(item.year >= extent[low] && item.year <= extent[high-1]){
-                    item.fungi.forEach(fungi => {
-                        list.push(fungi)
-                    })
-                }
-            })
-
-            vis.selectedFungi = list
-            if(high == extent.length) high--
-            vis.yearRange = [extent[low], extent[high]]
-
-            setSliderFromBrush(vis.yearRange)
-            updateFromBrush(vis.selectedFungi)
-        } else if (vis.config.parentElement == '#sampleByYear'){
-            let low = Math.floor(selection[0]/(vis.width/vis.data.length))
-            let high = Math.ceil(selection[1]/(vis.width/vis.data.length))
-            let list = []
-
-            let extent = vis.data.map(function(d) { return d[vis.config.xValue]; })
-            vis.data.forEach(item => {
-                if(item.month >= extent[low] && item.month <= extent[high-1]){
-                    item.fungi.forEach(fungi => {
-                        list.push(fungi)
-                    })
-                }
-            })
-
-            vis.selectedFungi = list
-            updateFromBrush(vis.selectedFungi)
-        }
     }
 
     yearHighlight(_selectedYear){

@@ -63,11 +63,6 @@ table, th, td{
   color: black;
 }
 
-table {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .center {
   margin: auto;
   width: 50%;
