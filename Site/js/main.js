@@ -1,7 +1,8 @@
-var data
+var data, episodeDetails
 var charCount = 0
 var charBackground = ['#808080', '#D3D3D3']
 var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'Alphabetical Ascending', 'Most Lines', 'Least Lines']
+
 
 Promise.all([
   d3.json('data/characters.json'),
@@ -34,12 +35,12 @@ Promise.all([
         loadDropDown('SeasonSelect', [item])  
       })
 
-      let episodes = data.getEpisodes(document.getElementById('SeasonSelect').value)
+      let episodes = data.getEpisodeNumbers(document.getElementById('SeasonSelect').value)
 
       episodes.forEach(item => {
         loadDropDown('EpisodeSelect', [item])  
       })
-
+      document.getElementById('EpisodeSelect').onchange()
       
 })
 
@@ -47,11 +48,38 @@ document.getElementById('SeasonSelect').onchange = () => {
   let episodeDropDown = document.getElementById('EpisodeSelect')
   while (episodeDropDown.options.length > 0) episodeDropDown.remove(0)
 
-  let episodes = data.getEpisodes(document.getElementById('SeasonSelect').value)
+  let episodes = data.getEpisodeNumbers(document.getElementById('SeasonSelect').value)
 
   episodes.forEach(item => {
     loadDropDown('EpisodeSelect', [item])  
   })
+  episodeDropDown.onchange()
+}
+
+document.getElementById('EpisodeSelect').onchange = () => {
+  let episodeDropDown = document.getElementById('EpisodeSelect')
+  let seasonDropDown = document.getElementById('SeasonSelect')
+
+  let details = data.getEpisodeDetails(seasonDropDown.value, episodeDropDown.value)
+  details.sort((a, b) => a.lines < b.lines ? 1 : -1)
+  let width = document.getElementById('EpisodeDetails').clientWidth
+  let height = document.getElementById('EpisodeDetails').clientHeight
+  if(episodeDetails === undefined){
+    episodeDetails = new BarChart({ 
+          parentElement: '#EpisodeDetails', 
+          title:"Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value,
+          containerWidth: width,
+          containerHeight: height,
+          xLabel: "Episode",
+          yLabel: "Lines",
+          xValue: "name",
+          yValue: "lines",
+          margin: {top: 50, right: 10, bottom: 70, left: 50}
+        }, 
+        details);
+  } else {
+    episodeDetails.updateVis(details, "Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value)
+  }
 }
 
 document.getElementById('FilterCharactersSelect').onchange = () => {
@@ -152,9 +180,8 @@ function checkCheckBox(){
     characterSheets.push(el.data)
   });
 
-  //sorts character sheets by most episodes and creates character sheets
+  //sorts character sheets and creates character sheets
   characterSheets = sortCharacterSheets(characterSheets, document.getElementById('FilterCharactersSelect').value)
-  console.log(document.getElementById('FilterCharactersSelect').value)
   characterSheets.forEach(character => {
     createCharacterSheet(character)
   })
@@ -253,7 +280,5 @@ function sortCharacterSheets(_characterSheets, _filter){
     case 'Least Lines':
       return _characterSheets.sort((a, b) => a.total_lines > b.total_lines ? 1 : -1)
       break
-     
   }
-  
 }

@@ -23,7 +23,7 @@ class dataCollection {
 		return returnArr
 	}
 
-	getEpisodes(_season){
+	getEpisodeNumbers(_season){
 		let returnArr = []
 		this.episodes.forEach(episode => {
 			if(episode.season == _season) returnArr.push(episode.episode)
@@ -31,7 +31,15 @@ class dataCollection {
 		return returnArr
 	}
 
-	getEpisode(_season, _episode){
-		
+	getEpisodeDetails(_season, _episode){
+		let returnArr = []
+		this.episodes.forEach(episode => {
+			if(episode.season == _season && episode.episode == _episode) {
+				episode.characters.forEach(character => {
+					returnArr.push(character)
+				})
+			}
+		})
+		return returnArr
 	}
 }

@@ -37,11 +37,14 @@ class BarChart {
         vis.xAxis = d3.axisBottom(vis.xScale)
         vis.xAxisG = vis.svg.append("g")
             .attr("transform", "translate(0," + vis.height + ")")
-            .attr('class', 'xAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
+            .attr('class', 'xAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
             .call(d3.axisBottom(vis.xScale))
             .selectAll("text")
-            .attr("transform", "translate(-10,2)rotate(-65)")
-            .style("display", "none");
+            .attr("transform", "translate(-10,25)rotate(-45)")
+            .style("display", () => {
+                if(vis.config.parentElement == '#EpisodeDetails') return 'block'
+                return 'none'
+            });
 
         // Add Y axis
         vis.yScale = d3.scaleLinear()
@@ -49,7 +52,7 @@ class BarChart {
             .range([ vis.height, 0]);
         vis.yAxis = d3.axisLeft(vis.yScale)
         vis.yAxisG = vis.svg.append('g')
-            .attr('class', 'yAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
+            .attr('class', 'yAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
             .call(vis.yAxis)
 
         vis.svg.append("text")
@@ -68,7 +71,7 @@ class BarChart {
             .text(vis.config.xLabel);
 
         vis.svg.append("text")
-            .attr("class", 'title' + vis.config.title.replace(/\s/g, '').replace(/\./g,''))
+            .attr("class", 'title' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
             .attr("text-anchor", "middle")
             .attr("x", vis.config.containerWidth / 2)
             .attr("y", 0)
@@ -105,14 +108,25 @@ class BarChart {
                   .attr("fill", "#FFEF99") //change the fill
                   .style('opacity', 0.5)
                 var html = () => {
-                  var stringReturn = ``
-                  stringReturn += `<div class="tooltip-label" "></div>`
-                  stringReturn += `<ul>`
-                  stringReturn += `<li>Season: ${d.season}</li>`
-                  stringReturn += `<li>Episode: ${d.episode}</li>`
-                  stringReturn += `<li>Lines Spoke: ${d[vis.config.yValue]}</li>`
-                  stringReturn += `</ul>`
-                  return stringReturn
+                    if(vis.config.parentElement == '#EpisodeDetails') {
+                        var stringReturn = ``
+                        stringReturn += `<div class="tooltip-label" "></div>`
+                        stringReturn += `<ul>`
+                        stringReturn += `<li>Name: ${d.name}</li>`
+                        stringReturn += `<li>Amount of Lines spoken: ${d.lines}</li>`
+                        stringReturn += `</ul>`
+                        return stringReturn
+                    }
+                    else {
+                        var stringReturn = ``
+                        stringReturn += `<div class="tooltip-label" "></div>`
+                        stringReturn += `<ul>`
+                        stringReturn += `<li>Season: ${d.season}</li>`
+                        stringReturn += `<li>Episode: ${d.episode}</li>`
+                        stringReturn += `<li>Lines Spoke: ${d[vis.config.yValue]}</li>`
+                        stringReturn += `</ul>`
+                        return stringReturn
+                    }
                 }
                 //create a tool tip
                 d3.select('#ToolTip')
@@ -123,7 +137,6 @@ class BarChart {
             .on('mousemove', (event) => {
                 //position the tooltip
                 var width = document.getElementById('ToolTip').offsetWidth
-                console.log(width)
                 d3.select('#ToolTip')
                   .style('left', ()=>{
                     if(event.pageX + width >= 1850){                        
@@ -143,13 +156,44 @@ class BarChart {
             })
     }
 
-    yearHighlight(_selectedYear){
+    updateVis(_data, _title){
         let vis = this;
-        d3.selectAll(".barHighlight")//how long we are transitioning between the two states (works like keyframes)
-            .attr("fill", "white") //change the fill
-            .style('opacity', 0)
-        d3.select("#barHighlight" + _selectedYear)
-            .attr("fill", "yellow") //change the fill
-            .style('opacity', 0.25)
+
+        vis.data = _data
+
+        vis.yScale.domain([0, d3.extent(vis.data, d => d[vis.config.yValue])[1]])
+        vis.xScale.domain(vis.data.map(function(d) { return d[vis.config.xValue]; }))
+
+        vis.svg.selectAll('.bar')
+            .data(vis.data)
+            .transition().duration(1000)
+            .attr("width", vis.xScale.bandwidth())
+            .attr("x", function(d) { return vis.xScale(d[vis.config.xValue]); })
+            .attr("y", function(d) { return vis.yScale(d[vis.config.yValue]); })
+            .attr("height", function(d) { return vis.height - vis.yScale(d[vis.config.yValue]);})
+
+        vis.svg.selectAll('.barHighlight')
+            .data(vis.data)
+            .attr("width", vis.xScale.bandwidth())
+            .attr("x", function(d) { return vis.xScale(d[vis.config.xValue]); })
+            .attr("y", function(d) { return vis.yScale(d3.extent(vis.data, d => d[vis.config.yValue])[1]); })
+            .transition().duration(10)
+
+        if(_title !== undefined){
+            d3.select('.title' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
+                .text(_title);
+        }
+
+        d3.select('.yAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
+            .transition()
+            .duration(1000)
+            .call(vis.yAxis)
+
+        d3.select('.xAxis' + vis.config.title.replace(/\s/g, '').replace(/\./g,'').replace(',', ''))
+            .transition()
+            .duration(1000)
+            .call(vis.xAxis)
+            .selectAll('text')
+            .attr("transform", "translate(-10,25)rotate(-45)")
     }
 }
