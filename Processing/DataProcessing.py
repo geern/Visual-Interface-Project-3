@@ -4,6 +4,7 @@
 # Kevin Eaton
 
 import csv, json
+from operator import itemgetter
 from tabnanny import check
 import time
 
@@ -47,9 +48,13 @@ def CharacterStrip():
                     )
                 line_count += 1
     print(f'Processed {line_count} lines.')
-    print(len(dump))
+    #sort by total episodes, desc
+    dump = sorted(dump, key=lambda d: d['total_episodes'], reverse=True) 
+    #clean and get only top 15
     dump = characterClean(dump)
-    print(len(dump))
+    dump = dump[0:15]
+    for item in dump:
+        print(item["name"] + " : " + str(item["total_episodes"]))
     #write to json file
     with open("./characters.json", "w") as f:
         json.dump(dump, f)
@@ -137,13 +142,13 @@ def characterClean(dump):
     #post processing clean
     i = 0
     while i < len(dump):
-        if(dump[i]["total_episodes"] < 20 or dump[i]["name"].__contains__("+")):
+        if(dump[i]["name"].__contains__("+") or dump[i]["name"] == "Title Card" or dump[i]["name"] == "Kids" or dump[i]["name"] == "Announcer"):
             del dump[i]
         else:
             i += 1
     
-    print(len(dump))
     return dump
+
 
 def main():
     CharacterStrip()
