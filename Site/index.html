@@ -19,16 +19,23 @@
             <img style="max-height: 100%;max-width: 100%;"src="images/ChinaExpressLogo.png">
         </a>
     </div>
-    <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px; background: black;">
+    <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px;">
+        <div id="ChordContent" style="float: left; width: 100%; height: 50%; background: #818528">
+            <svg id="ChordDiagramWhole" style="float: left; width: 25%; height: 100%; background: #818528">
+            </svg>
+            <div style="float: left;height: 100%; width: 50%;"id="mapLegend"></div>
+        </div>
         <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray; overflow-y: scroll;">
             <h3>Select Characters</h3>
             <input style="float: right" type="button" onclick="checkAll()" value="Select All">
             <input style="float: right" type="button" onclick="unCheckAll()" value="Deselect All">
+            <div id="CheckBoxContainer">
+            </div>
+        </div>
+        <div id="FilterDiv" style="float: left; height: 3%; width: 100%">
             <label>Filterby:</label>
             <select id="FilterCharactersSelect">
             </select>
-            <div id="CheckBoxContainer" style="float: Left;">
-            </div>
         </div>
         <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; background: yellow; overflow-y: scroll;">
         </div>
@@ -45,13 +52,17 @@
         <svg id="EpisodeDetails" style="float: left; width: 100%; height: 25%; background: #818589">
         </svg>
         
+        
     </div>
     <div id="ToolTip"></div>
 
+
     <script src="js/d3.v6.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
     <script src="js/dataCollection.js"></script>
     <script src="js/barChart.js"></script>
+    <script src="js/chordDiagram.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>
