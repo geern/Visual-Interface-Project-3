@@ -1,4 +1,4 @@
-var data, episodeDetails
+var data, episodeDetails, chordDiagramWhole
 var charCount = 0
 var charBackground = ['#808080', '#D3D3D3']
 var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'Alphabetical Ascending', 'Most Lines', 'Least Lines']
@@ -6,9 +6,10 @@ var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'A
 
 Promise.all([
   d3.json('data/characters.json'),
-  d3.json('data/episodes.json')
+  d3.json('data/episodes.json'),
+  d3.json('data/frequency.json')
     ]).then(function(files) {
-      data = new dataCollection(files[0], files[1])
+      data = new dataCollection(files[0], files[1], files[2])
 
       console.log(data.episodes)
       console.log(data.characters)
@@ -41,7 +42,18 @@ Promise.all([
         loadDropDown('EpisodeSelect', [item])  
       })
       document.getElementById('EpisodeSelect').onchange()
-      
+
+      let width = document.getElementById('ChordDiagramWhole').clientWidth
+      let height = document.getElementById('ChordDiagramWhole').clientHeight
+
+      chordDiagramWhole = new ChordDiagram({ 
+        parentElement: "#ChordDiagramWhole", 
+        title:"Connections",
+        containerWidth: width,
+        containerHeight: height,
+        margin: {top: 50, right: 10, bottom: 25, left: 50}
+      }, 
+      data.formatChordData(), data.chordCharacters)
 })
 
 document.getElementById('SeasonSelect').onchange = () => {
