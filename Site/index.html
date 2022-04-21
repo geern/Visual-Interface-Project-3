@@ -20,11 +20,6 @@
         </a>
     </div>
     <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px;">
-        <div id="ChordContent" style="float: left; width: 100%; height: 50%; background: #818528">
-            <svg id="ChordDiagramWhole" style="float: left; width: 25%; height: 100%; background: #818528">
-            </svg>
-            <div style="float: left;height: 100%; width: 50%;"id="mapLegend"></div>
-        </div>
         <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray; overflow-y: scroll;">
             <h3>Select Characters</h3>
             <input style="float: right" type="button" onclick="checkAll()" value="Select All">
@@ -37,7 +32,7 @@
             <select id="FilterCharactersSelect">
             </select>
         </div>
-        <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; background: yellow; overflow-y: scroll;">
+        <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; overflow-y: scroll;">
         </div>
         <div style="float: left;width:50%;height:5%;">
             <label>Select Season:</label><br/>
@@ -49,6 +44,17 @@
             <select id="EpisodeSelect">
             </select>
         </div> 
+        <div id="ChordContent" style="float: left; width: 100%; height: 50%; background: #818528">
+            <div style="float: left; width: 10%; height: 100%"></div>
+            <svg id="ChordDiagramWhole" style="float: left; width: 25%; height: 100%; background: #818528">
+            </svg>
+            <div style="float: left; width: 10%; height: 100%"></div>
+            <div style="float: left;height: 100%; width: 10%;"id="chordWholeLegend"></div>
+            <div style="float: left; width: 10%; height: 100%"></div>
+            <svg id="ChordDiagramSeason" style="float: left; width: 25%; height: 100%; background: #818528">
+            </svg>
+            <div style="float: left; width: 10%; height: 100%"></div>
+        </div>
         <svg id="EpisodeDetails" style="float: left; width: 100%; height: 25%; background: #818589">
         </svg>
         

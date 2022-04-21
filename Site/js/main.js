@@ -1,4 +1,4 @@
-var data, episodeDetails, chordDiagramWhole
+var data, episodeDetails, chordDiagramWhole, chordDiagramSeason
 var charCount = 0
 var charBackground = ['#808080', '#D3D3D3']
 var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'Alphabetical Ascending', 'Most Lines', 'Least Lines']
@@ -7,7 +7,7 @@ var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'A
 Promise.all([
   d3.json('data/characters.json'),
   d3.json('data/episodes.json'),
-  d3.json('data/frequency.json')
+  d3.json('data/Frequency/frequency.json')
     ]).then(function(files) {
       data = new dataCollection(files[0], files[1], files[2])
 
@@ -51,9 +51,11 @@ Promise.all([
         title:"Connections",
         containerWidth: width,
         containerHeight: height,
-        margin: {top: 50, right: 10, bottom: 25, left: 50}
+        margin: {top: 10, right: 10, bottom: 20, left: 10}
       }, 
-      data.formatChordData(), data.chordCharacters)
+      data.formatChordData(files[2]), data.getChordCharacters(data.wholeConnection))
+
+      loadSeasonChord()
 })
 
 document.getElementById('SeasonSelect').onchange = () => {
@@ -66,6 +68,8 @@ document.getElementById('SeasonSelect').onchange = () => {
     loadDropDown('EpisodeSelect', [item])  
   })
   episodeDropDown.onchange()
+
+  updateSeasonChord()
 }
 
 document.getElementById('EpisodeSelect').onchange = () => {
@@ -79,7 +83,7 @@ document.getElementById('EpisodeSelect').onchange = () => {
   if(episodeDetails === undefined){
     episodeDetails = new BarChart({ 
           parentElement: '#EpisodeDetails', 
-          title:"Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value,
+          title:"Lines Spoken on Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value,
           containerWidth: width,
           containerHeight: height,
           xLabel: "Episode",
@@ -90,12 +94,33 @@ document.getElementById('EpisodeSelect').onchange = () => {
         }, 
         details);
   } else {
-    episodeDetails.updateVis(details, "Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value)
+    episodeDetails.updateVis(details, "Lines Spoken on Season " + seasonDropDown.value + ", Episode " + episodeDropDown.value)
   }
 }
 
 document.getElementById('FilterCharactersSelect').onchange = () => {
   checkCheckBox()
+}
+
+async function loadSeasonChord(){
+  let season = document.getElementById('SeasonSelect').value
+  file = await d3.json('data/Frequency/frequency' + season + '.json')
+  let width = document.getElementById('ChordDiagramSeason').clientWidth
+  let height = document.getElementById('ChordDiagramSeason').clientHeight
+    chordDiagramSeason = new ChordDiagram({ 
+        parentElement: "#ChordDiagramSeason", 
+        title:"Connections from Season " + season,
+        containerWidth: width,
+        containerHeight: height,
+        margin: {top: 10, right: 10, bottom: 20, left: 10}
+      }, 
+      data.formatChordData(file), data.getChordCharacters(file))
+}
+
+async function updateSeasonChord(){
+  let season = document.getElementById('SeasonSelect').value
+  file = await d3.json('data/Frequency/frequency' + season + '.json')
+  chordDiagramSeason.updateVis(data.formatChordData(file), data.getChordCharacters(data.wholeConnection), "Connections from Season " + season)
 }
 
 function createCheckBox(_character){
