@@ -154,6 +154,13 @@ class BarChart {
 
                 d3.select('#ToolTip').style('opacity', 0);//turn off the tooltip
             })
+            .on('click', function(event, d) {
+                if(d.combo !== undefined){
+                    document.getElementById("SeasonSelect").value = d.season
+                    document.getElementById("EpisodeSelect").value = d.episodes
+                    document.getElementById("SeasonSelect").onchange()
+                }
+            })
     }
 
     updateVis(_data, _title){
