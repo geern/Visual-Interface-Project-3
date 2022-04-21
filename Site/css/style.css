@@ -69,3 +69,77 @@ table, th, td{
   padding: 10px;
   text-align: center;
 }
+
+#mainContent{
+  float: left;
+  height: 100vh; 
+  width: 98.5vw; 
+  margin-top: 25px;
+}
+
+#FilterDiv{
+  float: left; 
+  height: 3%; 
+  width: 100%
+}
+
+#CharacterSelect{
+  float: left;
+  height: 20%; 
+  width: 100%;
+  background: 
+  overflow-y: scroll;
+}
+
+#DisplayCharacters{
+  float: left;
+  width: 100%; 
+  height: 50%; 
+  overflow-y: scroll;
+}
+
+#ChordContent{
+  float: left; 
+  width: 100%; 
+  height: 50%; 
+  background: 
+}
+
+#ChordDiagramWhole{
+  float: left; 
+  width: 25%; 
+  height: 100%; 
+  background: 
+}
+
+#chordWholeLegend{
+  float: left;
+  height: 100%; 
+  width: 10%;
+}
+
+#ChordDiagramSeason{
+  float: left; 
+  height: 3%; 
+  width: 100%
+}
+
+#ChordDiagramSeason{
+  float: left; 
+  width: 25%; 
+  height: 100%; 
+  background: 
+}
+
+#EpisodeDetails{
+  float: left; 
+  width: 100%; 
+  height: 25%; 
+  background: 
+}
+
+.padder10{
+  float: left;
+  width: 10%;
+  height: 100%;
+}

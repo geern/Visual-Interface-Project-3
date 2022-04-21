@@ -127,11 +127,14 @@ function createCheckBox(_character){
   let container = document.createElement('label')
   container.style.width = '15%'
   container.style.float = 'left'
+  container.style.textAlign = 'left'
   container.input = document.createElement('input')
   container.input.type = 'checkbox'
   container.input.data = _character
   container.input.id = 'checkbox' + _character["name"]
+  container.input.style.float = 'left'
   container.input.name = 'checkbox'
+
   container.input.onclick = function() {checkCheckBox()}
   container.innerHTML = _character["name"]
 

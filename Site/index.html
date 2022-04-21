@@ -19,20 +19,21 @@
             <img style="max-height: 100%;max-width: 100%;"src="images/ChinaExpressLogo.png">
         </a>
     </div>
-    <div id="mainContent" style="float: left;height: 100vh; width: 98.5vw; margin-top: 25px;">
-        <div id="CharacterSelect" style="float: left;height: 20%; width: 100%; background: gray; overflow-y: scroll;">
+    <div id="mainContent">
+        <div id="CharacterSelect">
             <h3>Select Characters</h3>
-            <input style="float: right" type="button" onclick="checkAll()" value="Select All">
-            <input style="float: right" type="button" onclick="unCheckAll()" value="Deselect All">
+            <input style="float: left" type="button" onclick="checkAll()" value="Select All">
+            <input style="float: left" type="button" onclick="unCheckAll()" value="Deselect All">
+            <div style="float: left; width: 100%; height: 1%"></div>
             <div id="CheckBoxContainer">
             </div>
         </div>
-        <div id="FilterDiv" style="float: left; height: 3%; width: 100%">
+        <div id="FilterDiv">
             <label>Filter by:</label>
             <select id="FilterCharactersSelect">
             </select>
         </div>
-        <div id="DisplayCharacters" style="float: left;width: 100%; height: 80%; overflow-y: scroll;">
+        <div id="DisplayCharacters">
         </div>
         <div style="float: left;width:50%;height:5%;">
             <label>Select Season:</label><br/>
@@ -44,18 +45,18 @@
             <select id="EpisodeSelect">
             </select>
         </div> 
-        <div id="ChordContent" style="float: left; width: 100%; height: 50%; background: #818528">
-            <div style="float: left; width: 10%; height: 100%"></div>
-            <svg id="ChordDiagramWhole" style="float: left; width: 25%; height: 100%; background: #818528">
+        <div id="ChordContent">
+            <div class="padder10"></div>
+            <svg id="ChordDiagramWhole">
             </svg>
-            <div style="float: left; width: 10%; height: 100%"></div>
-            <div style="float: left;height: 100%; width: 10%;"id="chordWholeLegend"></div>
-            <div style="float: left; width: 10%; height: 100%"></div>
-            <svg id="ChordDiagramSeason" style="float: left; width: 25%; height: 100%; background: #818528">
+            <div class="padder10"></div>
+            <div id="chordWholeLegend"></div>
+            <div class="padder10"></div>
+            <svg id="ChordDiagramSeason">
             </svg>
-            <div style="float: left; width: 10%; height: 100%"></div>
+            <div class="padder10"></div>
         </div>
-        <svg id="EpisodeDetails" style="float: left; width: 100%; height: 25%; background: #818589">
+        <svg id="EpisodeDetails">
         </svg>
         
         
