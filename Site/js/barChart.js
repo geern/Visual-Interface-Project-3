@@ -87,7 +87,7 @@ class BarChart {
             .attr("y", function(d) { return vis.yScale(d[vis.config.yValue]); })
             .attr("width", vis.xScale.bandwidth())
             .attr("height", function(d) { return vis.height - vis.yScale(d[vis.config.yValue]); })
-            .attr("fill", "#FF6D8D")
+            .attr("fill", "#EBE04D")
 
         //createing area for hovering years to display data
         vis.svg.selectAll(".barHighlight")
