@@ -60,7 +60,7 @@ class ChordDiagram {
 
         vis.colorScale = d3.scaleOrdinal()
             .domain(vis.characters)
-            .range(d3.schemeCategory10);
+            .range(["#EFD304", "#F79138", "#CBC2C3", "#0FC6B3", "#EF6DA7", "#943131", "#C18221", "#76800D", "#C0CEEC", "#CA3464", "#826DA9", "#592DF0", "#FCD2A2", "#EF442E", "#8F9A8E"]);
 
         d3.select(vis.config.parentElement).selectAll("*").remove()
 
