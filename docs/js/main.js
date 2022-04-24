@@ -1,6 +1,6 @@
 var data, episodeDetails, chordDiagramWhole, chordDiagramSeason
 var charCount = 0
-var charBackground = ['#808080', '#D3D3D3']
+var charBackground = ['#b0b0b0', '#D3D3D3']
 var filterBy = ['Most Episodes', 'Least Episodes', 'Alphabetical Descending', 'Alphabetical Ascending', 'Most Lines', 'Least Lines']
 
 
@@ -143,7 +143,7 @@ function createCheckBox(_character){
 }
 
 function createCharacterSheet(_character){
-  let container = createDiv('left', '50%', '50%')
+  let container = createDiv('left', '50%', '60%')
   container.image = createDiv('left', '25%', '50%')
   container.name = createDiv('left', '75%', '16.66%')
   container.episodes = createDiv('left', '75%', '16.66%')

@@ -87,7 +87,7 @@ class BarChart {
             .attr("y", function(d) { return vis.yScale(d[vis.config.yValue]); })
             .attr("width", vis.xScale.bandwidth())
             .attr("height", function(d) { return vis.height - vis.yScale(d[vis.config.yValue]); })
-            .attr("fill", "#EBE04D")
+            .attr("fill", "#CD6155")
 
         //createing area for hovering years to display data
         vis.svg.selectAll(".barHighlight")
@@ -154,11 +154,12 @@ class BarChart {
 
                 d3.select('#ToolTip').style('opacity', 0);//turn off the tooltip
             })
-            .on('click', function(event, d) {
+            .on('click', async function(event, d) {
                 if(d.combo !== undefined){
                     document.getElementById("SeasonSelect").value = d.season
-                    document.getElementById("EpisodeSelect").value = d.episodes
                     document.getElementById("SeasonSelect").onchange()
+                    document.getElementById("EpisodeSelect").value = d.episode
+                    document.getElementById("EpisodeSelect").onchange()
                 }
             })
     }
