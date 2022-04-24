@@ -1,3 +1,3 @@
-# Project 3: Whose Line Is It Anyway?
+# Project 3: TV
 # Team: BEG
 # Members: Christopher Butts, Kevin Eaton, Raymond Gee
